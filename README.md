@@ -1,5 +1,6 @@
 This is a repository for research on indoor localization based on wireless fingerprinting techniques.
 
+
 # Building/Floor Classification and Location Estimation using Wi-Fi Fingerprinting
 
 ## Intorduction
@@ -133,21 +134,21 @@ We can find that the highest accuracy is 74.10% with batch size = 100 and epochs
 
 for batch size = 20
 
-![](images/epoch40,b=20.jpg)
+![](images/epoch40,b=20.png)
 
 for batch size = 50
 
-![](images/epoch=70,b=50.jpg)
+![](images/epoch=70,b=50.png)
 
 for batch size = 100
 
-![](image/epoch=120,b=100.jpg)
+![](image/epoch=120,b=100.png)
 
 **5. Classification parameters**
 
 CLASSIFICATION ACTIVATION: change 'relu' to 'selu' so that cna get higher accuracy
 
-The accuracy increased from
+The accuracy increased from 74.10% to 74.95%.
 
 CLASSIFICATION LOSS: change ¡®categorical_crossentropy¡¯ to ¡®binary_crossentropy¡¯
 
@@ -161,39 +162,11 @@ In this experiment, we have introduced the feasibility study project using the U
 
 ## Reference
 
-<sup><a id="fn.1" class="footnum" href=" ">[1]</ a></sup> T. Yamashita et al., "Cost-alleviative learning for deep convolutional neural network-based facial part labeling," *IPSJ Transactions on Computer Vision and Applications*, vol. 7, pp. 99-103, 2015. [(DOI)](http://doi.org/10.2197/ipsjtcva.7.99)
+[1] M. Nowicki and J. Wietrzykowski, "Low-effort place recognition with WiFi fingerprints using deep learning," arXiv:1611.02049v2 [cs.RO] [(arXiv)](https://arxiv.org/abs/1611.02049v2)
 
-<sup><a id="fn.2" class="footnum" href=" ">2</ a></sup> M. Nowicki and J. Wietrzykowski, "Low-effort place recognition with WiFi fingerprints using deep learning," arXiv:1611.02049v2 [cs.RO] [(arXiv)](https://arxiv.org/abs/1611.02049v2)
+[2] W. K. Zegeye et al., "WiFi RSS Fingerprinting Indoor Localization for Mobile Devices," *2016 IEEE 7th Annual Ubiquitous Computing, Electronics & Mobile Communication Conference (UEMCON) Ubiquitous Computing, Electronics & Mobile Communication Conference (UEMCON), IEEE Annual*, New York City, NY, USA, Oct. 20-22 20116. [(DOI)](10.1109/UEMCON.2016.7777834)
 
-# **Methodology**
+[3] Q. LU et al., "A Hybrid Indoor Positioning Algorithm based on WiFi Fingerprinting and Pedestrian Dead Reckoning," in *2016 IEEE 27th Annual International Symposium on Personal, Indoor, and Mobile Radio Communications (PIMRC) Personal, Indoor, and Mobile Radio Communications (PIMRC), 2016 IEEE 27th Annual International Symposium on*, Valencia, Spain, Sept. 4-8 2016.[(DOI)](10.1109/PIMRC.2016.7794982)
 
--   Implement [a new program](./python/bf_classification.py), which calculates accuracies separately for building and floor classification, to investigate the hierarchical nature of the classification problem at hand; the deep-learning-based place recognition system described in the key paper<sup><a id="fnr.1" class="footref" href="#fn.1">1</a></sup> does not take into account this and carries out classification based on flattened labels (i.e., (building, floor) -> 'building-floor'). We are now considering two options to guarantee 100% accuracy for the building classification:
-    -   Hierarchical classifier with a tree structure and multiple classifiers and data sets, which is a conventional approach and a reference for this investigation.
-    -   One classifier with a weighted loss function<sup><a id="fnr.2" class="footref" href="#fn.2">2</a></sup>. In our case, however, the loss function does not give a closed-form gradient function, which forces us to use evolutionary algorithms (e.g., [genetic algorithm](https://en.wikipedia.org/wiki/Genetic_algorithm)) for training of neural network weights or [multi-label classification with different class weights](https://github.com/fchollet/keras/issues/741) (i.e., higher weights for buildings in our case).
+[4] K. S. Kim et al., "Large-Scale Location-Aware Services in Access: Hierarchical Building/Floor Classification and Location Estimation using Wi-Fi Fingerprinting Based on Deep Neural Networks," arXIV:1710.00951 [cs.NI] [(arXiv)](http://arxiv.org/abs/1710.00951)
 
-
-# **Results**
-
--   Today, we further simplified the building/floor classification system by removing a hidden layer from the classifier (therefore no dropout), resulting in the configuration of '520-64-4-13' (including input and output layers) with loss=7.050603e-01 and accuracy=9.234923e-01 ([results](./results/indoor_localization_deep_learning_out_20170815-203448.org)). This might mean that the 4-dimensional data from the SAE encoder (64-4) can be linearly separable. Due to training of SAE encoder weights for the combined system, however, it needs further investigation.
-
-
-# **Conclusion**
-
--   We investigated whether a couple of strong RSSs in a fingerprint dominate the classification performance in building/floor classification. After many trials with different configurations, we could obtain more than 90% accuracies with the stacked-autoencoder (SAE) having 64-4-64 hidden layers (i.e., just 4 dimension) and the classifier having just one 128-node hidden layer ([results](./results/indoor_localization_deep_learning_out_20170814-184009.org)). This implies that a small number of RSSs from access points (APs) deployed in a building/floor can give enough information for the building/floor classification; the localization on the same floor, by the way, would be quite different, where RSSs from possibly many APs have a significant impact on the localization performance.
-
-
-# 2017-08-13
-
--   We finally obtained [more than 90% accuracies](./results/indoor_localization_deep_learning.org) from [this version](./python/indoor_localization_deep_learning.py), which are comparable to the results of the key paper <sup><a id="fnr.1.100" class="footref" href="#fn.1">1</a></sup> based on the [UJIIndoorLoc Data Set](https://archive.ics.uci.edu/ml/datasets/ujiindoorloc); refer to the [multi-class clarification example](https://keras.io/getting-started/sequential-model-guide/#compilation) for classifier parameter settings.
--   We [replace the activation functions of the hidden-layer from 'tanh' to 'relu'](./python/indoor_localization-2.ipynb) per the second answer to [this question](https://stats.stackexchange.com/questions/218542/which-activation-function-for-output-layer) ([results](./results/indoor_localization-2_20170813.csv)). Compared to the case with 'tanh', however, the results seem to not improve (a bit in line with the gut-feeling suggestions from [this](https://datascience.stackexchange.com/questions/10048/what-is-the-best-keras-model-for-multi-class-classification)).
-
-
-# 2017-08-12
-
--   We first tried [a feed-forward classifier with just one hidden layer](./python/indoor_localization-1.ipynb) per the comments from [this](https://stats.stackexchange.com/questions/181/how-to-choose-the-number-of-hidden-layers-and-nodes-in-a-feedforward-neural-netw) ([results](./results/indoor_localization-1_20170812.csv)). (\* *nh*: number of hidden layer nodes, *dr*: [dropout](https://en.wikipedia.org/wiki/Dropout_(neural_networks)) rate, *loss*: [categorical cross-entropy](http://deeplearning.net/software/theano/library/tensor/nnet/nnet.html#theano.tensor.nnet.nnet.categorical_crossentropy), *acc*: accuracy \*).
-
-## Footnotes
-
-<sup><a id="fn.1" class="footnum" href="#fnr.1">1</a></sup> M. Nowicki and J. Wietrzykowski, "Low-effort place recognition with WiFi fingerprints using deep learning," arXiv:1611.02049v2 [cs.RO] [(arXiv)](https://arxiv.org/abs/1611.02049v2)
-
-<sup><a id="fn.2" class="footnum" href="#fnr.2">2</a></sup> T. Yamashita et al., "Cost-alleviative learning for deep convolutional neural network-based facial part labeling," *IPSJ Transactions on Computer Vision and Applications*, vol. 7, pp. 99-103, 2015. [(DOI)](http://doi.org/10.2197/ipsjtcva.7.99)
