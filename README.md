@@ -142,7 +142,7 @@ for batch size = 50
 
 for batch size = 100
 
-![](image/epoch=120,b=100.png)
+![](images/epoch=120,b=100.png)
 
 **5. Classification parameters**
 
