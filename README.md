@@ -150,9 +150,9 @@ CLASSIFICATION ACTIVATION: change 'relu' to 'selu' so that cna get higher accura
 
 The accuracy increased from 74.10% to 74.95%.
 
-CLASSIFICATION LOSS: change ¡®categorical_crossentropy¡¯ to ¡®binary_crossentropy¡¯
+CLASSIFICATION LOSS: change 'categorical_crossentropy¡¯ to 'binary_crossentropy¡¯
 
-![](images/epoch=256,b=200,binary.jpg)
+![](images/epoch=256,b=200,binary.png)
 
 From the figure, we can find although the accuracy can reach about 99.89%. there may be something wrong inside the code because the validation accuracy growing curve is not the same as above.
 
