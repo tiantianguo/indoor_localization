@@ -1,11 +1,31 @@
-This is a repository for research on indoor localization based on wireless fingerprinting techniques. 
+This is a repository for research on indoor localization based on wireless fingerprinting techniques.
 
+# Intorduction
+ - **Background**
+ 
+   The most widely used positioning system is global positioning system (GPS). However, the radio signals of satellites are too weak to penetrate buildings and walls, thus GPS is not applicable in indoor environment.
+ - **Indoor localization**
+ 
+   Typical indoor localization algorithms mainly include trilateration or triangulation and maximum likelihood techniques. The common ranging methods are as follows: Time of Arrival (TOA), Time Difference of Arrival (TDOA), Angle of Arrival (AOA) and Received Signal Strength Indicator (RSSI) ranging method.
+ - **Received signal strengths (RSS)**
 
-# **Introduction**
+   Due to complex indoor environment and the limits of access points (APs), the positioning technology of (RSSI) is the main technology of WiFi localization.
+ - **Problems**
+ 
+   Due to complex indoor environment, RSSs are easily affected by multipath effect, cofrequency radio interference, the absorption of human body and other ambient changes. Therefore, RSSs fluctuate with time even at a fixed location, which causes inaccurate positioning results. Meanwhile, the positions estimated by WiFi fingerprinting method are independent and discontinuous in real-time tracking.
 
--   Background
-    -   Still, need to optimize parameters a lot.
+# Methodology
+**1. Experimental Data**
 
+- UJIIndoorLoc dataset
+- Total 19937 samples separated in training, validation, and test data.
+- Each scan in the database contains 529 attributes. 
+
+**2. stacked Auto Encoder (SAE)**
+
+Since the DNN architecture is not optimized enough, we can use stacked auto encoders for this task and provide raw measurements at DNN input. Stacked auto encoders (SAE) are parts of the deep network used to reduce the dimensionality of the input data by learning the reduced representation of the original data during unsupervised training.
+
+![](images/1.jpg)
 
 # **Methodology**
 
