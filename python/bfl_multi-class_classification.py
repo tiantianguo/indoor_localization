@@ -49,8 +49,8 @@ CLASSIFIER_ACTIVATION = 'selu'
 CLASSIFIER_BIAS = False
 # CLASSIFIER_OPTIMIZER = 'adam'
 CLASSIFIER_OPTIMIZER = 'adagrad'
-CLASSIFIER_LOSS = 'binary_crossentropy'
-#CLASSIFIER_LOSS = 'categorical_crossentropy'
+#CLASSIFIER_LOSS = 'binary_crossentropy'
+CLASSIFIER_LOSS = 'categorical_crossentropy'
 #------------------------------------------------------------------------
 # input files
 #------------------------------------------------------------------------
@@ -82,19 +82,19 @@ if __name__ == "__main__":
         "-E",
         "--epochs",
         help="number of epochs; default is 20",
-        default=200,
+        default=100,
         type=int)
     parser.add_argument(
         "-B",
         "--batch_size",
         help="batch size; default is 10",
-        default=256,
+        default=100,
         type=int)
     parser.add_argument(
         "-T",
         "--training_validation_test_ratio",
         help="comma-separated ratio of training, validation, and test data to the overall data: default is '7,2,1'",
-        default='7,2,1',
+        default='8,1,1',
         type=str)
     parser.add_argument(
         "-S",
