@@ -4,8 +4,7 @@
 #+STARTUP: showall
 
 This is a repository for research on indoor localization based on wireless
-fingerprinting techniques. For more details, please visit [[http://kyeongsoo.github.io/research/projects/indoor_localization/index.html][XJTLU SURF project
-home page]].
+fingerprinting techniques. 
 
 * 2017-08-18
 - Implement [[./python/bf_multi-label_classification.py][a multi-label classifier]] to address the issues described on

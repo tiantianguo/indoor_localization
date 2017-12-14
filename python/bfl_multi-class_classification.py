@@ -20,10 +20,9 @@
 import argparse
 import datetime
 import os
-import math
 import numpy as np
 import pandas as pd
-import sys
+import matplotlib.pyplot as plt
 from sklearn.preprocessing import scale
 from timeit import default_timer as timer
 
@@ -45,12 +44,13 @@ SAE_LOSS = 'mse'
 #------------------------------------------------------------------------
 # classifier
 #------------------------------------------------------------------------
-CLASSIFIER_ACTIVATION = 'relu'
+CLASSIFIER_ACTIVATION = 'selu'
 # CLASSIFIER_ACTIVATION = 'tanh'
 CLASSIFIER_BIAS = False
 # CLASSIFIER_OPTIMIZER = 'adam'
 CLASSIFIER_OPTIMIZER = 'adagrad'
-CLASSIFIER_LOSS = 'categorical_crossentropy'
+CLASSIFIER_LOSS = 'binary_crossentropy'
+#CLASSIFIER_LOSS = 'categorical_crossentropy'
 #------------------------------------------------------------------------
 # input files
 #------------------------------------------------------------------------
@@ -82,13 +82,13 @@ if __name__ == "__main__":
         "-E",
         "--epochs",
         help="number of epochs; default is 20",
-        default=20,
+        default=200,
         type=int)
     parser.add_argument(
         "-B",
         "--batch_size",
         help="batch size; default is 10",
-        default=10,
+        default=256,
         type=int)
     parser.add_argument(
         "-T",
@@ -152,7 +152,7 @@ if __name__ == "__main__":
     train_df = pd.read_csv(path_train, header=0) # pass header=0 to be able to replace existing names
     train_AP_features = scale(np.asarray(train_df.iloc[:,0:520]).astype(float), axis=1) # convert integer to float and scale jointly (axis=1)
     train_df['REFPOINT'] = train_df.apply(lambda row: str(int(row['SPACEID'])) + str(int(row['RELATIVEPOSITION'])), axis=1) # add a new column
-    
+    #train_df['REFPOINT'] = train_df.apply(lambda row: str(int(row['SPACEID'])), axis=1) 
     # map reference points to sequential IDs per building-floor before building labels
     blds = np.unique(train_df[['BUILDINGID']])
     flrs = np.unique(train_df[['FLOOR']])    
@@ -224,11 +224,20 @@ if __name__ == "__main__":
 
     # train the model
     startTime = timer()
-    model.fit(x_train, y_train, validation_data=(x_val, y_val), batch_size=batch_size, epochs=epochs, verbose=VERBOSE)
+    history=model.fit(x_train, y_train, validation_data=(x_val, y_val), batch_size=batch_size, epochs=epochs, verbose=VERBOSE)
 
+    fig = plt.figure()
+    ax1 = fig.add_subplot(111)
+    ax1.plot(history.history['val_acc'])
+
+    # ax1.title('model accuracy')
+    ax1.set_xlabel('epoch')
+    ax1.set_ylabel('accuracy')
+    ax1.legend(['validation accuracy'], loc='lower right')
+    ax=history.history['val_acc']
     elapsedTime = timer() - startTime
     print("Model trained in %e s." % elapsedTime)
-    
+    #print(ax)
     ### evaluate the model
     print("\nPart 3: evaluating the model ...")
 
