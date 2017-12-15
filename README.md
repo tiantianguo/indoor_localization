@@ -158,7 +158,7 @@ From the figure, we can find although the accuracy can reach about 99.89%. there
 
 ## Conclusion
 
-In this experiment, we have introduced the feasibility study project using the UJIIndoorLoc dataset to apply indoor localization. From previous work, we can find that to get higher accuracy, we should enlarge the number of epochs and the batch size but may cost much more time. However, it's difficult to improve the accuracy because the numeric parameters can only change the accuracy slightly. So, further study is needed to change the model for more accurate building-floor-localization.
+In this experiment, we have introduced the feasibility study project using the UJIIndoorLoc dataset to apply indoor localization. From previous work, we can find that to get higher accuracy, we should enlarge the number of epochs and the batch size but may cost much more time. However, it is difficult to improve the accuracy because the numeric parameters can only change the accuracy slightly. So, further study is needed to change the model for more accurate building-floor-localization.
 
 ## Reference
 
